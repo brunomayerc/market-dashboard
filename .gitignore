@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.vite/
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+
+# OS generated files
+.DS_Store
