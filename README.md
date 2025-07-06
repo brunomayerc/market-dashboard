@@ -6,7 +6,7 @@ A simple React + Vite dashboard for stock market data.
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v16 or higher recommended)
-- [npm](https://www.npmjs.com/) (comes with Node.js)
+- [pnpm](https://pnpm.io/) (install with `npm install -g pnpm`)
 
 ### Installation
 
@@ -14,30 +14,38 @@ A simple React + Vite dashboard for stock market data.
 2. Open a terminal in the project directory.
 3. Install dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 
-### Running the Development Server
+### Available Scripts
 
+#### Development
 Start the app in development mode:
 ```bash
-npm run dev
+pnpm dev
+```
+The app will be available at http://localhost:5173.
+
+#### Production
+Build the app for production:
+```bash
+pnpm build
 ```
 
-The app will be available at the URL shown in the terminal (usually http://localhost:5173).
-
-### Building for Production
-
-To build the app for production:
+Preview the production build locally:
 ```bash
-npm run build
+pnpm preview
 ```
 
-### Previewing the Production Build
-
-To preview the production build locally:
+#### Maintenance
+Clean node_modules and package-lock.json:
 ```bash
-npm run preview
+pnpm clean
+```
+
+Type check without building:
+```bash
+pnpm type-check
 ```
 
 ---
