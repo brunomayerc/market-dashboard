@@ -19,4 +19,5 @@ export default defineConfig({
       cert: fs.readFileSync(path.join(__dirname, 'ssl', 'localhost.crt')),
     },
   },
+  base: '/market-dashboard/',
 });
