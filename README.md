@@ -1,8 +1,17 @@
-# StockMarket Dashboard
+# 📊 StockMarket Dashboard
 
-A simple React + Vite dashboard for stock market data.
+A modern and responsive React + Vite dashboard for tracking stock market data.
 
-## Getting Started
+---
+
+## 🚀 Features
+- **Real-time Data**: Stay updated with the latest stock market trends.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
+- **Fast and Lightweight**: Built with Vite for blazing-fast performance.
+
+---
+
+## 🛠️ Getting Started
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v16 or higher recommended)
@@ -17,16 +26,18 @@ A simple React + Vite dashboard for stock market data.
    pnpm install
    ```
 
-### Available Scripts
+---
 
-#### Development
+## 📂 Available Scripts
+
+### Development
 Start the app in development mode:
 ```bash
 pnpm dev
 ```
 The app will be available at http://localhost:5173.
 
-#### Production
+### Production
 Build the app for production:
 ```bash
 pnpm build
@@ -37,7 +48,7 @@ Preview the production build locally:
 pnpm preview
 ```
 
-#### Maintenance
+### Maintenance
 Clean node_modules and package-lock.json:
 ```bash
 pnpm clean
@@ -48,7 +59,21 @@ Type check without building:
 pnpm type-check
 ```
 
-## Setting Up SSL for Local Development
+---
+
+## 🌐 Deployment
+
+### QA Deployment (Pull Requests)
+- Each pull request is automatically deployed to a unique QA environment.
+- The deployment URL is commented on the pull request for easy access.
+
+### Production Deployment
+- Merging into the `main` branch triggers an automatic deployment to production.
+- The production site is hosted on GitHub Pages.
+
+---
+
+## 🔒 Setting Up SSL for Local Development
 
 This project supports HTTPS for local development using self-signed certificates. Follow these steps to set it up:
 
@@ -80,4 +105,10 @@ After completing these steps, restart your browser and the certificate should be
 
 ---
 
-Feel free to customize this dashboard for your needs!
+## 📄 License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+---
+
+Feel free to customize this dashboard for your needs! 🌟
