@@ -1,9 +1,6 @@
-name: Deploy to GitHub Pages and QA
+name: QA PR Checks
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - "*"
@@ -15,7 +12,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  build-and-deploy:
+  qa-checks:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,25 +30,13 @@ jobs:
     - name: Install dependencies
       run: pnpm install
 
-    - name: Build project
-      run: pnpm build
-
-    - name: Deploy to GitHub Pages
-      if: github.event_name == 'push'
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
-
     - name: Build project for QA
-      if: github.event_name == 'pull_request'
       env:
         QA_DEPLOYMENT: true
         PR_NUMBER: ${{ github.event.pull_request.number }}
       run: pnpm build
 
     - name: Deploy to QA for PRs
-      if: github.event_name == 'pull_request'
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -59,7 +44,6 @@ jobs:
         destination_dir: pr-${{ github.event.pull_request.number }}
 
     - name: Comment on PR with QA URL
-      if: github.event_name == 'pull_request'
       uses: actions/github-script@v6
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
