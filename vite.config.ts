@@ -14,10 +14,12 @@ export default defineConfig({
     },
   },
   server: {
-    https: {
-      key: fs.readFileSync('./localhost+2-key.pem'),
-      cert: fs.readFileSync('./localhost+2.pem'),
-    },
+    ...(process.env.NODE_ENV === 'development' && {
+      https: {
+        key: fs.readFileSync('./localhost+2-key.pem'),
+        cert: fs.readFileSync('./localhost+2.pem'),
+      },
+    }),
   },
   base: (() => {
     if (process.env.NODE_ENV === 'development') {
