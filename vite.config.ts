@@ -19,7 +19,11 @@ export default defineConfig({
       cert: fs.readFileSync(path.join(__dirname, 'ssl', 'localhost.crt')),
     },
   },
-  base: process.env.QA_DEPLOYMENT
-    ? `/market-dashboard/pr-${process.env.PR_NUMBER}/`
-    : '/market-dashboard/',
+  base: (() => {
+    const basePath = process.env.QA_DEPLOYMENT
+      ? `/market-dashboard/pr-${process.env.PR_NUMBER}/`
+      : '/market-dashboard/';
+    console.log('Vite base path:', basePath); // Log the base path for debugging
+    return basePath;
+  })(),
 });
