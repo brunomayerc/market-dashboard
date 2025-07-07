@@ -42,17 +42,3 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./dist
         destination_dir: pr-${{ github.event.pull_request.number }}
-
-    - name: Comment on PR with QA URL
-      uses: actions/github-script@v6
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const prNumber = context.payload.pull_request.number;
-          const qaUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-${prNumber}/`;
-          await github.rest.issues.createComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: prNumber,
-            body: `🚀 Your changes have been deployed to QA: [View Deployment](${qaUrl})`
-          });
