@@ -75,33 +75,52 @@ pnpm type-check
 
 ## 🔒 Setting Up SSL for Local Development
 
-This project supports HTTPS for local development using self-signed certificates. Follow these steps to set it up:
+This project supports HTTPS for local development using `mkcert`. Follow these steps to set it up:
 
-### Generate SSL Certificates
-If the `ssl/localhost.key` and `ssl/localhost.crt` files are missing, you can generate them using OpenSSL:
-
-1. Create a private key:
+1. **Install mkcert**:
    ```bash
-   openssl genrsa -out ssl/localhost.key 2048
+   brew install mkcert
+   brew install nss # For Firefox support
    ```
 
-2. Create a certificate signing request (CSR):
+2. **Install the local CA**:
    ```bash
-   openssl req -new -key ssl/localhost.key -out ssl/localhost.csr -subj "/CN=localhost"
+   mkcert -install
    ```
 
-3. Generate a self-signed certificate:
+3. **Generate certificates**:
    ```bash
-   openssl x509 -req -days 365 -in ssl/localhost.csr -signkey ssl/localhost.key -out ssl/localhost.crt
+   mkcert localhost 127.0.0.1 ::1
+   ```
+   This will create the following files in the project root:
+   - `localhost.pem` (certificate)
+   - `localhost-key.pem` (key)
+
+   **Note**: These files are not committed to version control. Each developer should generate their own certificates following these steps.
+
+4. **Update Vite Configuration**:
+   Ensure your `vite.config.ts` is configured to use these certificates:
+   ```ts
+   import { defineConfig } from 'vite';
+   import react from '@vitejs/plugin-react';
+   import fs from 'fs';
+
+   export default defineConfig({
+     plugins: [react()],
+     server: {
+       https: {
+         key: fs.readFileSync('./localhost-key.pem'),
+         cert: fs.readFileSync('./localhost.pem'),
+       },
+     },
+   });
    ```
 
-### Trust the Certificate on macOS
-1. Double-click the `ssl/localhost.crt` file to open it in **Keychain Access**.
-2. Drag it to the **System** keychain.
-3. Double-click the certificate, expand **Trust**, and set **When using this certificate** to **Always Trust**.
-4. Close the window and enter your password to confirm.
-
-After completing these steps, restart your browser and the certificate should be trusted.
+5. **Start the Development Server**:
+   Run the following command to start the server with HTTPS:
+   ```bash
+   pnpm dev
+   ```
 
 ---
 

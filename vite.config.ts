@@ -15,11 +15,14 @@ export default defineConfig({
   },
   server: {
     https: {
-      key: fs.readFileSync(path.join(__dirname, 'ssl', 'localhost.key')),
-      cert: fs.readFileSync(path.join(__dirname, 'ssl', 'localhost.crt')),
+      key: fs.readFileSync('./localhost+2-key.pem'),
+      cert: fs.readFileSync('./localhost+2.pem'),
     },
   },
   base: (() => {
+    if (process.env.NODE_ENV === 'development') {
+      return '/';
+    }
     const basePath = process.env.QA_DEPLOYMENT
       ? `/market-dashboard/pr-${process.env.PR_NUMBER}/`
       : '/market-dashboard/';
