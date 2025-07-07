@@ -56,7 +56,7 @@ jobs:
         script: |
           const prNumber = context.payload.pull_request.number;
           const qaUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-${prNumber}/`;
-          github.issues.createComment({
+          await octokit.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: prNumber,
