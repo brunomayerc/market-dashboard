@@ -53,10 +53,11 @@ jobs:
       if: github.event_name == 'pull_request'
       uses: actions/github-script@v6
       with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const prNumber = context.payload.pull_request.number;
           const qaUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-${prNumber}/`;
-          await octokit.issues.createComment({
+          await github.rest.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: prNumber,
