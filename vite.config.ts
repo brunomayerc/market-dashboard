@@ -19,5 +19,7 @@ export default defineConfig({
       cert: fs.readFileSync(path.join(__dirname, 'ssl', 'localhost.crt')),
     },
   },
-  base: '/market-dashboard/',
+  base: process.env.QA_DEPLOYMENT
+    ? `/market-dashboard/pr-${process.env.PR_NUMBER}/`
+    : '/market-dashboard/',
 });
