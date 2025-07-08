@@ -1,37 +1,42 @@
-import { defineConfig } from "eslint";
-import react from "eslint-plugin-react";
-import typescript from "@typescript-eslint/eslint-plugin";
-import tailwindcss from "eslint-plugin-tailwindcss";
+import js from '@eslint/js';
+import react from 'eslint-plugin-react';
+import typescript from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
 
-export default defineConfig({
-  env: {
-    browser: true,
-    es2021: true,
-  },
-  extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:tailwindcss/recommended",
-    "prettier",
-  ],
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+export default [
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    settings: {
+      react: {
+        version: 'detect',
+      },
     },
-    ecmaVersion: "latest",
-    sourceType: "module",
-  },
-  plugins: ["react", "@typescript-eslint", "tailwindcss"],
-  rules: {
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-    "tailwindcss/no-custom-classname": "off",
-  },
-  settings: {
-    react: {
-      version: "detect",
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parser: typescriptParser,
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        console: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        process: 'readonly',
+      },
+    },
+    plugins: {
+      react,
+      '@typescript-eslint': typescript,
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      ...react.configs.recommended.rules,
+      ...typescript.configs.recommended.rules,
+      'react/react-in-jsx-scope': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_' },
+      ],
     },
   },
-});
+];

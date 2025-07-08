@@ -5,6 +5,7 @@ A modern and responsive React + Vite dashboard for tracking stock market data.
 ---
 
 ## 🚀 Features
+
 - **Real-time Data**: Stay updated with the latest stock market trends.
 - **Responsive Design**: Optimized for both desktop and mobile devices.
 - **Fast and Lightweight**: Built with Vite for blazing-fast performance.
@@ -14,6 +15,7 @@ A modern and responsive React + Vite dashboard for tracking stock market data.
 ## 🛠️ Getting Started
 
 ### Prerequisites
+
 - [Node.js](https://nodejs.org/) (v16 or higher recommended)
 - [pnpm](https://pnpm.io/) (install with `npm install -g pnpm`)
 
@@ -31,30 +33,39 @@ A modern and responsive React + Vite dashboard for tracking stock market data.
 ## 📂 Available Scripts
 
 ### Development
+
 Start the app in development mode:
+
 ```bash
 pnpm dev
 ```
+
 The app will be available at http://localhost:5173.
 
 ### Production
+
 Build the app for production:
+
 ```bash
 pnpm build
 ```
 
 Preview the production build locally:
+
 ```bash
 pnpm preview
 ```
 
 ### Maintenance
+
 Clean node_modules and package-lock.json:
+
 ```bash
 pnpm clean
 ```
 
 Type check without building:
+
 ```bash
 pnpm type-check
 ```
@@ -64,10 +75,12 @@ pnpm type-check
 ## 🌐 Deployment
 
 ### QA Deployment (Pull Requests)
+
 - Each pull request is automatically deployed to a unique QA environment.
 - The deployment URL is commented on the pull request for easy access.
 
 ### Production Deployment
+
 - Merging into the `main` branch triggers an automatic deployment to production.
 - The production site is hosted on GitHub Pages.
 
@@ -78,20 +91,24 @@ pnpm type-check
 This project supports HTTPS for local development using `mkcert`. Follow these steps to set it up:
 
 1. **Install mkcert**:
+
    ```bash
    brew install mkcert
    brew install nss # For Firefox support
    ```
 
 2. **Install the local CA**:
+
    ```bash
    mkcert -install
    ```
 
 3. **Generate certificates**:
+
    ```bash
    mkcert localhost 127.0.0.1 ::1
    ```
+
    This will create the following files in the project root:
    - `localhost.pem` (certificate)
    - `localhost-key.pem` (key)
@@ -100,6 +117,7 @@ This project supports HTTPS for local development using `mkcert`. Follow these s
 
 4. **Update Vite Configuration**:
    Ensure your `vite.config.ts` is configured to use these certificates:
+
    ```ts
    import { defineConfig } from 'vite';
    import react from '@vitejs/plugin-react';
