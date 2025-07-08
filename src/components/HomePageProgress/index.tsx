@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { Progress } from '../base/Progress';
 
 const HomePageProgress = () => {
-  const [progress, setProgress] = React.useState(5);
+  const [progress, setProgress] = useState<number>(5);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
       setProgress((prev) => (prev < 100 ? prev + 2.5 : 100));
     }, 1000);
