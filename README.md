@@ -1,171 +1,64 @@
 # 📊 StockMarket Dashboard
 
-A modern and responsive React + Vite dashboard for tracking stock market data.
+A React + Vite dashboard for tracking stock market data with real-time updates, responsive design, and fast performance.
 
----
-
-## 🚀 Features
-
-- **Real-time Data**: Stay updated with the latest stock market trends.
-- **Responsive Design**: Optimized for both desktop and mobile devices.
-- **Fast and Lightweight**: Built with Vite for blazing-fast performance.
-
----
-
-## 🛠️ Getting Started
+## 🛠️ Setup
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (v16 or higher recommended)
-- [pnpm](https://pnpm.io/) (install with `npm install -g pnpm`)
+- [Node.js](https://nodejs.org/) (v16+)
+- [pnpm](https://pnpm.io/)
 
-### Installation
-
-1. Clone the repository or download the source code.
-2. Open a terminal in the project directory.
-3. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-
----
-
-## 📂 Available Scripts
-
-### Development
-
-Start the app in development mode:
+### Quick Start
 
 ```bash
-pnpm dev
-```
+# Install dependencies
+pnpm install
 
-The app will be available at http://localhost:5173.
+# Start development server
+pnpm dev         # http://localhost:5173
 
-### Production
-
-Build the app for production:
-
-```bash
+# Build for production
 pnpm build
+pnpm preview     # Preview production build
 ```
 
-Preview the production build locally:
+### Common Commands
 
 ```bash
-pnpm preview
+# Maintenance
+pnpm clean       # Clean node_modules
+pnpm type-check  # Type check without building
+
+# Testing
+pnpm test        # Run tests in watch mode
+pnpm test:run    # Run tests once
+pnpm test:ui     # Run tests with UI
 ```
-
-### Maintenance
-
-Clean node_modules and package-lock.json:
-
-```bash
-pnpm clean
-```
-
-Type check without building:
-
-```bash
-pnpm type-check
-```
-
-### Testing
-
-Run tests once:
-
-```bash
-pnpm test:run
-```
-
-Run tests in watch mode:
-
-```bash
-pnpm test
-```
-
-Run tests with UI (interactive mode):
-
-```bash
-pnpm test:ui
-```
-
----
 
 ## 🌐 Deployment
 
-### QA Deployment (Pull Requests)
+- **QA**: Automatic deployment for each PR with URL in comments
+- **Production**: Auto-deploys from `main` branch to GitHub Pages
 
-- Each pull request is automatically deployed to a unique QA environment.
-- The deployment URL is commented on the pull request for easy access.
+## 🔒 Local SSL Setup
 
-### Production Deployment
+```bash
+# 1. Install mkcert
+brew install mkcert
+brew install nss  # For Firefox
 
-- Merging into the `main` branch triggers an automatic deployment to production.
-- The production site is hosted on GitHub Pages.
+# 2. Install local CA
+mkcert -install
 
----
+# 3. Generate certificates
+mkcert localhost 127.0.0.1 ::1
+```
 
-## 🔒 Setting Up SSL for Local Development
+Certificates (`localhost+2.pem` and `localhost+2-key.pem`) will be created in the project root.
 
-This project supports HTTPS for local development using `mkcert`. Follow these steps to set it up:
-
-1. **Install mkcert**:
-
-   ```bash
-   brew install mkcert
-   brew install nss # For Firefox support
-   ```
-
-2. **Install the local CA**:
-
-   ```bash
-   mkcert -install
-   ```
-
-3. **Generate certificates**:
-
-   ```bash
-   mkcert localhost 127.0.0.1 ::1
-   ```
-
-   This will create the following files in the project root:
-   - `localhost+2.pem` (certificate)
-   - `localhost+2-key.pem` (key)
-
-   **Note**: These files are not committed to version control. Each developer should generate their own certificates following these steps.
-
-4. **Update Vite Configuration**:
-   Ensure your `vite.config.ts` is configured to use these certificates:
-
-   ```ts
-   import { defineConfig } from 'vite';
-   import react from '@vitejs/plugin-react';
-   import fs from 'fs';
-
-   export default defineConfig({
-     plugins: [react()],
-     server: {
-       https: {
-         key: fs.readFileSync('./localhost+2-key.pem'),
-         cert: fs.readFileSync('./localhost+2.pem'),
-       },
-     },
-   });
-   ```
-
-5. **Start the Development Server**:
-   Run the following command to start the server with HTTPS:
-   ```bash
-   pnpm dev
-   ```
-
----
+Vite is already configured to use these certificates. Start with HTTPS using `pnpm dev`.
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
-
----
-
-Feel free to customize this dashboard for your needs! 🌟
+MIT License. See LICENSE file for details.
