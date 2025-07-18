@@ -5,10 +5,12 @@ A React + Vite dashboard for tracking stock market data with real-time updates, 
 ## 🛠️ Setup
 
 ### Prerequisites
+
 - [Node.js](https://nodejs.org/) (v16+)
 - [pnpm](https://pnpm.io/)
 
 ### Quick Start
+
 ```bash
 # Install dependencies
 pnpm install
@@ -22,6 +24,7 @@ pnpm preview     # Preview production build
 ```
 
 ### Common Commands
+
 ```bash
 # Maintenance
 pnpm clean       # Clean node_modules
