@@ -70,6 +70,26 @@ Type check without building:
 pnpm type-check
 ```
 
+### Testing
+
+Run tests once:
+
+```bash
+pnpm test:run
+```
+
+Run tests in watch mode:
+
+```bash
+pnpm test
+```
+
+Run tests with UI (interactive mode):
+
+```bash
+pnpm test:ui
+```
+
 ---
 
 ## 🌐 Deployment
@@ -110,8 +130,8 @@ This project supports HTTPS for local development using `mkcert`. Follow these s
    ```
 
    This will create the following files in the project root:
-   - `localhost.pem` (certificate)
-   - `localhost-key.pem` (key)
+   - `localhost+2.pem` (certificate)
+   - `localhost+2-key.pem` (key)
 
    **Note**: These files are not committed to version control. Each developer should generate their own certificates following these steps.
 
@@ -127,8 +147,8 @@ This project supports HTTPS for local development using `mkcert`. Follow these s
      plugins: [react()],
      server: {
        https: {
-         key: fs.readFileSync('./localhost-key.pem'),
-         cert: fs.readFileSync('./localhost.pem'),
+         key: fs.readFileSync('./localhost+2-key.pem'),
+         cert: fs.readFileSync('./localhost+2.pem'),
        },
      },
    });
