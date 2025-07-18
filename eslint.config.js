@@ -22,6 +22,15 @@ export default [
         setInterval: 'readonly',
         clearInterval: 'readonly',
         process: 'readonly',
+        // Test globals
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        vi: 'readonly',
+        global: 'readonly',
+        HTMLElement: 'readonly',
       },
     },
     plugins: {
