@@ -29,7 +29,7 @@ const Sidebar = ({ onMenuItemClick }: SidebarProps) => {
   const renderMenuItem = (item: (typeof allMenuItems)[0]) => {
     const isActive = activeItem === item.id;
     const baseClasses =
-      'flex items-center px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer group border';
+      'flex items-center px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer group border w-full text-left';
     const activeClasses = isActive
       ? 'bg-blue-100 text-blue-900 border-blue-200'
       : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900 border-transparent';
@@ -37,11 +37,27 @@ const Sidebar = ({ onMenuItemClick }: SidebarProps) => {
     return (
       <NavigationMenu.Item key={item.id}>
         <NavigationMenu.Link
-          onClick={() => handleItemClick(item.id)}
-          className={`${baseClasses} ${activeClasses}`}
+          active={isActive}
+          onClick={(e) => {
+            e.preventDefault();
+            handleItemClick(item.id);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleItemClick(item.id);
+            }
+          }}
+          className={`${baseClasses} ${activeClasses} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+          aria-current={isActive ? 'page' : undefined}
+          aria-label={item.label}
+          href="#"
+          tabIndex={0}
+          role="button"
         >
           <item.icon
             className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-blue-700' : ''}`}
+            aria-hidden="true"
           />
           <span
             className={`ml-3 text-sm font-medium truncate transition-opacity duration-300 ease-in-out ${isCollapsed ? 'opacity-0' : 'opacity-100'}`}
@@ -66,6 +82,7 @@ const Sidebar = ({ onMenuItemClick }: SidebarProps) => {
         ${isCollapsed ? 'w-16' : 'w-64'}
       `}
       role="complementary"
+      aria-label="Main navigation"
       data-testid="sidebar"
       data-collapsed={isCollapsed}
     >
@@ -84,8 +101,11 @@ const Sidebar = ({ onMenuItemClick }: SidebarProps) => {
               p-2 rounded-md hover:bg-gray-100 
               data-[state=on]:bg-gray-100 
               transition-colors duration-200
+              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+              focus-visible:ring-2 focus-visible:ring-blue-500
             "
-            aria-label="Toggle sidebar"
+            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            tabIndex={0}
           >
             {isCollapsed ? (
               <Icons.ChevronRightIcon className="w-4 h-4" />
@@ -97,7 +117,11 @@ const Sidebar = ({ onMenuItemClick }: SidebarProps) => {
       </div>
 
       {/* Navigation Menu */}
-      <NavigationMenu.Root className="flex-1 flex flex-col">
+      <NavigationMenu.Root
+        className="flex-1 flex flex-col"
+        orientation="vertical"
+        aria-label="Main navigation"
+      >
         <NavigationMenu.List className="flex-1 flex flex-col p-2 space-y-1">
           {regularMenuItems.map(renderMenuItem)}
         </NavigationMenu.List>
