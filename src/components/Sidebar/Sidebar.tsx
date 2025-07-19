@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavigationMenu, Toggle, Icons } from '../base';
+import { NavigationMenu, Toggle, Icons } from '@/components/base';
 
 interface SidebarProps {
   onMenuItemClick?: (itemId: string) => void;

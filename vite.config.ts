@@ -1,16 +1,22 @@
-/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import fs from 'fs';
+import { fileURLToPath, URL } from 'node:url';
 import tailwindPostcss from '@tailwindcss/postcss';
 
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
   css: {
     postcss: {
       plugins: [tailwindPostcss],
     },
   },
+  // @ts-expect-error - Vitest configuration
   test: {
     globals: true,
     environment: 'jsdom',

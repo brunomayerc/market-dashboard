@@ -1,4 +1,4 @@
-import PageLayout from '../../components/PageLayout';
+import PageLayout from '@/components/PageLayout';
 
 const Watchlist = () => {
   return <PageLayout title="Watchlist" />;

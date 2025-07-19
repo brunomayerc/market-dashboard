@@ -1,9 +1,9 @@
 import { ReactNode, useState } from 'react';
-import Sidebar from '../Sidebar';
-import Dashboard from '../../pages/Dashboard';
-import Watchlist from '../../pages/Watchlist';
-import UserSettings from '../../pages/UserSettings';
-import StockSnapAI from '../../pages/StockSnapAI';
+import Sidebar from '@/components/Sidebar';
+import Dashboard from '@/pages/Dashboard';
+import Watchlist from '@/pages/Watchlist';
+import UserSettings from '@/pages/UserSettings';
+import StockSnapAI from '@/pages/StockSnapAI';
 
 interface LayoutProps {
   children?: ReactNode;
