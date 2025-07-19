@@ -15,15 +15,21 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install
@@ -36,19 +42,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-
-      - name: Cleanup PR folder
-        run: |
-          git clone --branch=gh-pages https://github.com/${{ github.repository }} gh-pages
-          cd gh-pages
-          PR_FOLDER="pr-${PR_NUMBER}"
-          if [ -d "$PR_FOLDER" ]; then
-            rm -rf "$PR_FOLDER"
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add .
-            git commit -m "Cleanup PR folder for PR #$PR_NUMBER"
-            git push
-          else
-            echo "PR folder $PR_FOLDER does not exist. Skipping cleanup."
-          fi
+          cname: # Add your custom domain here if needed
