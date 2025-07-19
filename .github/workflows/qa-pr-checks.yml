@@ -1,19 +1,14 @@
-name: QA PR Checks
+name: PR Quality Checks
 
 on:
   pull_request:
     branches:
       - '*'
 
-permissions:
-  contents: write
-  pages: write
-  issues: write
-  pull-requests: write
-
 jobs:
-  qa-checks:
+  pr-checks:
     runs-on: ubuntu-latest
+    name: Lint, Test & Build
 
     steps:
       - name: Checkout repository
@@ -29,30 +24,35 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+        
+      - name: Type check
+        run: pnpm type-check
+        
+      - name: Lint
+        run: pnpm lint
+        
+      - name: Format check
+        run: pnpm prettier --check .
+        
+      - name: Run tests
+        run: pnpm test:run
 
-      - name: Build project for QA
-        env:
-          QA_DEPLOYMENT: true
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+      - name: Build project
         run: pnpm build
-
-      - name: Deploy to QA for PRs
-        uses: peaceiris/actions-gh-pages@v3
+        
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          destination_dir: pr-${{ github.event.pull_request.number }}
-
-      - name: Comment on PR with QA URL
-        uses: actions/github-script@v6
+          name: build-artifacts
+          path: ./dist
+          retention-days: 1
+          
+      - name: Save PR event payload
+        run: echo '${{ toJSON(github.event) }}' > event.json
+        
+      - name: Upload PR event payload
+        uses: actions/upload-artifact@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const prNumber = context.payload.pull_request.number;
-            const qaUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-${prNumber}/`;
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-              body: `🚀 Your changes have been deployed to QA: [View Deployment](${qaUrl})`
-            });
+          name: event-payload
+          path: event.json
+          retention-days: 1
