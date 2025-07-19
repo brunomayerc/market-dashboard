@@ -20,9 +20,12 @@
     "pre-commit:lint-staged": "lint-staged"
   },
   "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css,md}": [
+      "prettier --write --cache"
+    ],
     "*.{ts,tsx}": [
       "eslint --fix --cache",
-      "prettier --write --cache"
+      "pnpm run type-check"
     ],
     "*.{js,jsx,ts,tsx}": [
       "vitest related --run"
