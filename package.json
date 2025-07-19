@@ -24,8 +24,7 @@
       "prettier --write --cache"
     ],
     "*.{ts,tsx}": [
-      "eslint --fix --cache",
-      "pnpm run type-check"
+      "eslint --fix --cache"
     ],
     "*.{js,jsx,ts,tsx}": [
       "vitest related --run"

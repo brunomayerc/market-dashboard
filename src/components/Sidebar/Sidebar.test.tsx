@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import Sidebar from './Sidebar';
 
 describe('Sidebar', () => {
@@ -12,31 +12,29 @@ describe('Sidebar', () => {
     expect(screen.getByText('StockScope')).toBeInTheDocument();
   });
 
-  it('toggles sidebar open and close', () => {
+  it('handles menu item clicks', () => {
+    const mockOnMenuItemClick = vi.fn();
+    render(<Sidebar onMenuItemClick={mockOnMenuItemClick} />);
+
+    const watchlistButton = screen.getByRole('button', { name: 'Watchlist' });
+    fireEvent.click(watchlistButton);
+
+    expect(mockOnMenuItemClick).toHaveBeenCalledWith('watchlist');
+  });
+
+  it('has basic accessibility attributes', () => {
     render(<Sidebar />);
 
-    const toggleButton = screen.getByRole('button', {
-      name: /toggle sidebar/i,
-    });
-    const sidebar = screen.getByTestId('sidebar');
-    const dashboardText = screen.getByTestId('menu-text-dashboard');
+    // Check navigation structure has proper labels
+    const sidebar = screen.getByRole('complementary');
+    expect(sidebar).toHaveAttribute('aria-label', 'Main navigation');
 
-    // Initially expanded - sidebar should not be collapsed
-    expect(sidebar).toHaveAttribute('data-collapsed', 'false');
-    expect(dashboardText).not.toHaveAttribute('aria-hidden', 'true');
+    const nav = screen.getByRole('navigation');
+    expect(nav).toHaveAttribute('aria-label', 'Main navigation');
 
-    // Click to collapse
-    fireEvent.click(toggleButton);
-
-    // Sidebar should be collapsed and text should be hidden
-    expect(sidebar).toHaveAttribute('data-collapsed', 'true');
-    expect(dashboardText).toHaveAttribute('aria-hidden', 'true');
-
-    // Click to expand again
-    fireEvent.click(toggleButton);
-
-    // Sidebar should be expanded and text should be visible
-    expect(sidebar).toHaveAttribute('data-collapsed', 'false');
-    expect(dashboardText).not.toHaveAttribute('aria-hidden', 'true');
+    // Check that menu items are accessible as buttons
+    const dashboardButton = screen.getByRole('button', { name: 'Dashboard' });
+    expect(dashboardButton).toBeInTheDocument();
+    expect(dashboardButton).toHaveAttribute('aria-current', 'page');
   });
 });
