@@ -1,6 +1,6 @@
-# 📊 StockMarket Dashboard
+# 📊 StockScope
 
-A React + Vite dashboard for tracking stock market data with real-time updates, responsive design, and fast performance.
+A dashboard for tracking the stocks of brands you actually care about. Discover companies behind the products you use every day and follow their market performance in a clean, visual interface.
 
 ## 🛠️ Setup
 
