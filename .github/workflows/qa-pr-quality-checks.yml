@@ -1,0 +1,94 @@
+name: PR Quality Checks and QA Deployment
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  pr-checks:
+    runs-on: ubuntu-latest
+    name: Lint, Test & Build
+    outputs:
+      pr-number: ${{ github.event.number }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Type check
+        run: pnpm type-check
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Format check
+        run: pnpm prettier --check .
+
+      - name: Run tests
+        run: pnpm test:run
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-pr-${{ github.event.number }}
+          path: ./dist
+          retention-days: 7
+
+  deploy-to-qa:
+    needs: pr-checks
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    name: Deploy to QA Environment
+    permissions:
+      contents: write
+      pages: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts-pr-${{ needs.pr-checks.outputs.pr-number }}
+          path: ./dist
+
+      - name: Deploy to QA for PRs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          destination_dir: pr-${{ needs.pr-checks.outputs.pr-number }}
+          keep_files: true
+
+      - name: Comment on PR with QA URL
+        run: |
+          REPO_OWNER=$(echo "$GITHUB_REPOSITORY" | cut -d '/' -f 1)
+          REPO_NAME=$(echo "$GITHUB_REPOSITORY" | cut -d '/' -f 2)
+          QA_URL="https://$REPO_OWNER.github.io/$REPO_NAME/pr-${{ needs.pr-checks.outputs.pr-number }}/"
+
+          gh pr comment ${{ needs.pr-checks.outputs.pr-number }} \
+            --body "🚀 Your changes have been deployed to QA: [View Deployment]($QA_URL)"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
