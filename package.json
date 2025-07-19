@@ -17,17 +17,7 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:changed": "vitest --changed",
-    "pre-commit:fast": "concurrently \"pnpm lint:fix\" \"pnpm format:fix\" && pnpm test:changed",
-    "pre-commit:lint-staged": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix --cache",
-      "prettier --write --cache"
-    ],
-    "*.{js,jsx,ts,tsx}": [
-      "vitest related --run"
-    ]
+    "pre-commit:fast": "concurrently \"pnpm lint:fix\" \"pnpm format:fix\" && pnpm test:changed"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
@@ -58,7 +48,6 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "husky": "^8.0.0",
     "jsdom": "^26.1.0",
-    "lint-staged": "^16.1.2",
     "prettier": "^3.6.2",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3",
