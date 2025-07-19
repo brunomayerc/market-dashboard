@@ -22,3 +22,7 @@ localhost+2-key.pem
 
 # VS Code
 .vscode/
+
+# Cache files
+.eslintcache
+.stylelintcache

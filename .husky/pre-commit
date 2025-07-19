@@ -1,6 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm run lint:fix
-pnpm run format:fix
-pnpm run test
+pnpm run pre-commit:lint-staged
